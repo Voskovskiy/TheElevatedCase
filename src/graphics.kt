@@ -1,4 +1,4 @@
-// Graphics tools // ToDo: Need to finish Show flours!
+// Graphics tools
 fun welcome() = println("Welcome to the Elevated Case") // Going to use it for Args
 fun showFlours(num: Int, qty: Int) {
     print("[The Elevator][")

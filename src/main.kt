@@ -1,9 +1,4 @@
 // The Elevated Case
-/* ToDo:
-    1. Build a logic!
-    2. Fix showElevator - It is broken!
-    3. Rework Person class
-*/
 // Default values
 var _startingFlour = 1
 const val _minRandom = 2 // At least 2 Flours or 2 people in the elevator
@@ -13,7 +8,6 @@ var _buildingSize = ranDom() // Building size value(default if not reset)
 // Main method
 fun main(args: Array<String>) {
     welcome()
-    // ToDo: Need to put Args checker or reset default val's!
     logic()
 }
 fun logic() {
