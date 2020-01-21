@@ -12,9 +12,24 @@ class Building() {
         flours.forEach { quantity += it.count() }
         return quantity
     }
-//    fun anyoneHere(): Boolean {
-//        return this.inside() != 0
-//    }
+    fun anyoneOnThisFlour(currentFlour: Int): Boolean {
+        return flours[currentFlour].count() > 0
+    }
+    fun getPeopleFromThisFlour(currentFlour: Int, qty: Int, goingUp: Boolean): HashSet<Person> {
+        var capacity = qty
+        val transfer = HashSet<Person>()
+        val flour = flours[currentFlour] // Pick a flour
+        for (person in flour.people) {
+            if (capacity == 0) break
+            if (goingUp) {
+                if (person.destination > currentFlour) transfer.add(person)
+            } else {
+                if (person.destination < currentFlour) transfer.add(person)
+            }
+            capacity--
+        }
+        return transfer
+    }
 //    fun inside(): Int {
 //        var people: Int = 0
 //        this.flours.forEach {

@@ -1,4 +1,4 @@
-// Graphics tools
+// Graphics tools // ToDo: Need to finish Show flours!
 fun welcome() = println("Welcome to the Elevated Case") // Going to use it for Args
 fun showFlours(num: Int, qty: Int) {
     print("[The Elevator][")
@@ -15,16 +15,52 @@ fun showFlours(num: Int, qty: Int) {
     }
     print("][Current flour][")
     if (qty == 0) {
-        for (i in 1..10) print(".")
+        other(10, true)
     } else {
-
+        var num2: Int = qty / _elevatorCapacity * 100
+        when (qty) {
+            in 1..10 -> {
+                other(1,true, false)
+                other(1, false, false)
+                other(2, true)
+            }
+            in 10..20 -> {
+                other(1,true, true)
+                other(1, true, true)
+                other(2, true)
+            }
+            in 30..40 -> {
+                other(1,true, true)
+                other(1, true, true)
+                other(2, true)
+            }
+            in 50..60 -> {
+                other(1,true, true)
+                other(1, true, true)
+                other(2, true)
+            }
+            in 70..80 -> {
+                other(1,true, true)
+                other(1, true, true)
+                other(2, true)
+            }
+            in 90..99 -> {
+                other(1,true, true)
+                other(1, true, true)
+                other(2, true)
+            }
+            100     -> { other(5, true, true) }
+        }
     }
-    print("]")
+    print("][Capacity]")
     println()
 }
-fun other(reps: Int) {
-    for (i in 0 until reps)
-        print("....")
+fun other(reps: Int, type: Boolean = false, two: Boolean = true) {
+    val j: Int = if (two) 2 else 1
+    val char: String = if (type) "#" else ".."
+    for (i in 0 until reps) {
+        for (i: Int in 0 until j) print(char)
+    }
 }
 fun mid(num: Int) {
     when (num % 10) {
