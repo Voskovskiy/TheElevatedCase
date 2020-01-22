@@ -1,4 +1,4 @@
-class Elevator() {
+class Elevator {
     private var people: ArrayList<Person>
     private var capacity: Int = _elevatorCapacity
     var currentFlour: Int = _startingFlour
@@ -10,6 +10,9 @@ class Elevator() {
     fun inside(): Int {
         return this.people.count()
     }
+    fun isEmpty(): Boolean {
+        return this.inside() == 0
+    }
     fun checkCapacity(quantity: Int): Boolean {
         return (quantity > this.capacity)
     }
@@ -18,6 +21,9 @@ class Elevator() {
     }
     fun fill(data: ArrayList<Person>) {
         people.addAll(data)
+    }
+    fun isFull(): Boolean {
+        return (people.count() == capacity)
     }
     fun firstOrLast(): Boolean {
         return when (currentFlour) {
@@ -36,7 +42,7 @@ class Elevator() {
     }
     fun askAround(): HashSet<Person> {
         val transfer = HashSet<Person>()
-        people.forEach() {
+        people.forEach {
             if (it.destination == currentFlour) {
                 transfer.add(it)
             }
@@ -44,7 +50,47 @@ class Elevator() {
         return transfer
     }
     fun unload(transfer: HashSet<Person>) {
-        people.removeAll() { transfer.contains(it) }
+        people.removeAll { transfer.contains(it) }
         println("${peopleOrPerson(transfer.count())} just left.")
+    }
+    private fun atTheRoof(): Boolean {
+        return currentFlour == _buildingSize
+    }
+    fun next() {
+        if (people.count() == 0) {  // We do not have any people to ask the direction
+            if (firstOrLast()) {    // Checking if we reached top or bottom
+                if (atTheRoof()) goDown() else goUp()
+            } else {
+                when (goingUp) {
+                    null -> noDirection()
+                    true -> goUp()
+                    false -> goDown()
+                }
+            }
+        }
+    }
+    private fun goUp() {
+        currentFlour++
+        goingUp = true
+    }
+    private fun goDown() {
+        currentFlour--
+        goingUp = false
+    }
+    private fun noDirection() {
+        val peopleGoingUp = HashSet<Person>()
+        val peopleGoingDown = HashSet<Person>()
+        for (person in people) {
+            if (person.destination > currentFlour) {
+                peopleGoingUp.add(person)
+            } else {
+                peopleGoingDown.add(person)
+            }
+        }
+        if (peopleGoingUp.count() > peopleGoingDown.count()) {
+            goUp()
+        } else {
+            goDown()
+        }
     }
 }
