@@ -14,20 +14,17 @@ fun main(args: Array<String>) {
 fun logic() {
     val elevator = Elevator()
     val building = Building()
-    val turns: Int = 0 // Debug purposes
+    val turns = 0 // Debug purposes
     while (true) {
-        if (building.isEmpty() and (elevator.isEmpty())) break   // Job is done!
-        val transfer = elevator.askAround()     // Asking around if anyone arrived to this flour
-        if (transfer.isNotEmpty()) elevator.unload(transfer)    // Unloading if we have anyone to leave
-        if (building.currentFlourIsEmpty(elevator.currentFlour) or elevator.isFull()) { elevator.next(); continue; } // Nothing to do here!
-        when (elevator.firstOrLast()) {
-            true -> { // First or Last Flour we take all, if we have any room left
-
-            }
-            false -> { // Middle case
-
-            }
-        }
+        showElevator(elevator)
+        printFlour(building, elevator.currentFlour)
+        if (building.isEmpty() and (elevator.isEmpty())) break          // Job is done!
+        val transfer = elevator.askAround()             // Asking around if anyone arrived to this flour
+        if (transfer.isNotEmpty()) elevator.unload(transfer)            // Unloading if we have anyone to leave
+        if (building.currentFlourIsEmpty(elevator.currentFlour - 1) or elevator.isFull()) { elevator.next(); continue; } // Nothing to do here!
+        elevator.fillIn(building.flours[elevator.currentFlour - 1].people)  // Time to fill the elevator
+        elevator.next()
+        println()
     }
     println("Job's done! We spent $turns turns!")
 }

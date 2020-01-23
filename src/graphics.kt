@@ -1,6 +1,8 @@
 // Graphics tools
 fun welcome() = println("Welcome to the Elevated Case") // Going to use it for Args
-fun showFlours(num: Int, qty: Int) {
+fun showElevator(elevator: Elevator) {
+    val num: Int = elevator.currentFlour
+    val qty: Int = elevator.inside()
     print("[The Elevator][")
     when (num) {
         1         -> { print("$num..."); other(4) }
@@ -15,51 +17,38 @@ fun showFlours(num: Int, qty: Int) {
     }
     print("][Current flour][")
     if (qty == 0) {
-        other(10, true)
+        other(10, false)
     } else {
-        var num2: Int = qty / _elevatorCapacity * 100
         when (qty) {
-            in 1..10 -> {
-                other(1,true, false)
-                other(1, false, false)
-                other(2, true)
+            in 1..20 -> {
+                other(1, empty = false, two = false)
+                other(2, empty = true, two = false)
             }
-            in 10..20 -> {
-                other(1,true, true)
-                other(1, true, true)
-                other(2, true)
+            in 21..40 -> {
+                other(1, empty = false, two = false)
+                other(3, empty = true, two = true)
             }
-            in 30..40 -> {
-                other(1,true, true)
-                other(1, true, true)
-                other(2, true)
+            in 41..60 -> {
+                other(3, empty = false)
+                other(1, empty = true)
             }
-            in 50..60 -> {
-                other(1,true, true)
-                other(1, true, true)
-                other(2, true)
+            in 61..80 -> {
+                other(2, empty = false, two = false)
+                other(1, empty = true)
             }
-            in 70..80 -> {
-                other(1,true, true)
-                other(1, true, true)
-                other(2, true)
-            }
-            in 90..99 -> {
-                other(1,true, true)
-                other(1, true, true)
-                other(2, true)
-            }
-            100     -> { other(5, true, true) }
+            in 81..100     -> { other(5, empty = true, two = true) }
         }
     }
     print("][Capacity]")
     println()
 }
-fun other(reps: Int, type: Boolean = false, two: Boolean = true) {
-    val j: Int = if (two) 2 else 1
-    val char: String = if (type) "#" else ".."
-    for (i in 0 until reps) {
-        for (i: Int in 0 until j) print(char)
+fun other(reps: Int, empty: Boolean = false, two: Boolean = true) {
+    val j: Int = if (two) 1 else 2
+    val char: String = if (empty) ".." else "#"
+    repeat(reps) {
+        repeat(j) {
+            print(char)
+        }
     }
 }
 fun mid(num: Int) {

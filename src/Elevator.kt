@@ -16,16 +16,51 @@ class Elevator {
     fun checkCapacity(quantity: Int): Boolean {
         return (quantity > this.capacity)
     }
-    fun leftCapacity(quantity: Int): Int {
+    fun leftCapacity(): Int {
         return capacity - people.count() // How many people we may fit in?
     }
-    fun fill(data: ArrayList<Person>) {
-        people.addAll(data)
+    fun fillIn(people: ArrayList<Person>) {
+        val transfer = HashSet<Person>()
+        var leftCapacity = capacity - people.count()
+        loop@ for (person in people) {
+            when(firstOrLast()) {
+                true -> { // Pick all
+                    transfer.add(person)
+                }
+                else -> { // Pick according to the direction
+                    when(goingUp) {
+                        true -> {
+                            if (person.destination > currentFlour) {
+                                transfer.add(person)
+                                leftCapacity--
+                            } else {
+                                continue@loop
+                            }
+                        }
+                        false -> {
+                            if (person.destination < currentFlour) {
+                                transfer.add(person)
+                                leftCapacity--
+                            } else {
+                                continue@loop
+                            }
+                        }
+                        null -> {
+                            transfer.add(person)
+                            leftCapacity--
+                        }
+                    }
+                }
+            }
+            if (leftCapacity == 0) break
+        }
+        this.people.addAll(transfer)
+        people.removeAll {transfer.contains(it)}
     }
     fun isFull(): Boolean {
         return (people.count() == capacity)
     }
-    fun firstOrLast(): Boolean {
+    private fun firstOrLast(): Boolean {
         return when (currentFlour) {
             1 -> {
                 this.goingUp = true
@@ -78,19 +113,17 @@ class Elevator {
         goingUp = false
     }
     private fun noDirection() {
-        val peopleGoingUp = HashSet<Person>()
-        val peopleGoingDown = HashSet<Person>()
+        var goingUp = 0
+        val goingDown = 0
         for (person in people) {
-            if (person.destination > currentFlour) {
-                peopleGoingUp.add(person)
+            if (person.destination > currentFlour) goingUp++ else goingUp++
+        }
+        if (goingUp == goingUp) { // Choosing a shorter route
+            if ((_buildingSize - currentFlour) > (currentFlour - 1)) {
+                goDown()
             } else {
-                peopleGoingDown.add(person)
+                goUp()
             }
-        }
-        if (peopleGoingUp.count() > peopleGoingDown.count()) {
-            goUp()
-        } else {
-            goDown()
-        }
+        } else if (goingUp > goingDown) goUp() else goDown()
     }
 }

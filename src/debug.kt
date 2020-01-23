@@ -1,6 +1,6 @@
 // Debugging tools
 fun printBuilding(data: Building) {
-    var flourNum: Int = 0
+    var flourNum = 0
     for (flour in data.flours) {
         flourNum++
         print("Flour#$flourNum: ")
@@ -8,16 +8,16 @@ fun printBuilding(data: Building) {
         println()
     }
 }
-//fun printPeoplePerFlour(data: Building) {
-//    var flour: Int = 0
-//    var count: Int = 0
-//    data.flours.forEach { people ->
-//        println("Flour #$flour contains people: ${people.count()}")
-//        count += people.count()
-//        flour++
-//    }
-//    println("Total: $count")
-//}
+fun printFlour(data: Building, currentFlour: Int) {
+    val people = data.flours[currentFlour].people
+    println("[Flour#${currentFlour}]")
+    if (people.count() == 0) { println("Empty") } else {
+        people.forEach {
+            print("[$it.destination] ")
+        }
+        println()
+    }
+}
 fun insideTheElevator(elevator: Elevator) {
     println("We are at the flour#${elevator.currentFlour} with ${peopleOrPerson(elevator.inside())}")
 }
