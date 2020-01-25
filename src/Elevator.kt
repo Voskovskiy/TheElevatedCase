@@ -4,10 +4,10 @@ class Elevator {
     private var people: ArrayList<Person> = ArrayList(capacity)
     private var goingUp: Boolean? = null
     fun roomLeft(): Int = capacity - people.count()
-    fun fillIn(people: ArrayList<Person>, quantity: Int) {
+    fun fillIn(queue: ArrayList<Person>) {
         val transfer = HashSet<Person>()
-        var turns = quantity
-        loop@ for (person in people) {
+        var turns = roomLeft()
+        loop@ for (person in queue) {
             if (turns == 0) break
             when(firstOrLast()) {
                 true -> { transfer.add(person) }
@@ -37,8 +37,8 @@ class Elevator {
                 }
             }
         }
-        this.people.addAll(transfer)
-        people.removeAll {transfer.contains(it)}
+        people.addAll(transfer)
+        queue.removeAll {transfer.contains(it)}
         if (transfer.count() > 0)println("${peopleOrPerson(transfer.count())} entered the elevator")
     }
     fun isFull(): Boolean {
@@ -74,6 +74,7 @@ class Elevator {
     fun inside(): Int {
         return this.people.count()
     }
+    fun get(): ArrayList<Person> = people
     private fun firstOrLast(): Boolean {
         return when (currentFlourIndex) {
             0 -> {

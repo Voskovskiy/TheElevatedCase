@@ -13,6 +13,8 @@ fun main(args: Array<String>) {
     val building = Building()
     var turns = 0
     while (true) {
+        showBuilding(building)
+        showElevator(elevator)
         if (building.isEmpty() and (elevator.isEmpty())) break      // Job is done!
         if (!elevator.isEmpty()) {
             val transfer = elevator.askAround()                     // Asking around if anyone arrived to this flour
@@ -21,10 +23,8 @@ fun main(args: Array<String>) {
         if (building.currentFlourIsEmpty(elevator.currentFlourIndex) or elevator.isFull()) {
             elevator.next(); turns++; continue
         }
-        val request = elevator.roomLeft()
-        println(request)
-        if (request > 0) {
-            elevator.fillIn(building.flours[elevator.currentFlourIndex].people, request)
+        if (elevator.roomLeft() > 0) {
+            elevator.fillIn(building.flours[elevator.currentFlourIndex].people)
         }
         elevator.next()
         turns++
@@ -46,4 +46,25 @@ fun peopleOrPerson(quantity: Int): String {
         1    -> "One person"
         else -> "$quantity people"
     }
+}
+// Debug methods
+fun showBuilding(building: Building) {
+    println("Building start")
+    building.flours.forEach {
+        showFlour(it)
+    }
+}
+fun showFlour(flour: Flour) {
+    print("Flour: ")
+    flour.people.forEach {
+        print("[${it.destination}] ")
+    }
+    println()
+}
+fun showElevator(elevator: Elevator) {
+    print("Elevator: ")
+    elevator.get().forEach {
+        print("[${it.destination}] ")
+    }
+    println()
 }
