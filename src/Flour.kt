@@ -1,16 +1,9 @@
-class Flour(var current: Int = 1) {
-    var people: ArrayList<Person> = ArrayList<Person>()
+class Flour(current : Int = 0) {
+    var people: ArrayList<Person> = ArrayList()
     init {
         for (i in 0 until ranDom()) {
             people.add(Person(current))
         }
     }
-    fun count(): Int {
-        return people.count()
-    }
-    fun showDestination() {
-        people.forEach() {
-            print("${it.destination} ")
-        }
-    }
+    fun count(): Int = people.count()
 }

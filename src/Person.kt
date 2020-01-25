@@ -1,7 +1,12 @@
 class Person(current: Int) {
-    var destination: Int
+    var destination: Int = 0
     init {
-        destination = ranDom(1, _buildingSize)
-        if (destination == current) { destination = ranDom(1, _buildingSize) } // Reroll in case match
+            while (true) {
+                roll()
+                if (destination != (current - 1)) break
+            }
+        }
+    private fun roll() {
+        destination =  ranDom(0, (_buildingSize - 1))
     }
 }
