@@ -37,7 +37,6 @@ fun main(args: Array<String>) {
         elevator.next()
         turns++
     }
-    separator()
     println("All set! We finished in $turns turns!")
 }
 // Custom methods
