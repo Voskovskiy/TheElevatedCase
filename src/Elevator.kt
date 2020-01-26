@@ -5,6 +5,7 @@ class Elevator {
     private var goingUp: Boolean? = null
     fun roomLeft(): Int = capacity - people.count()
     fun fillIn(queue: ArrayList<Person>) {
+        queue.sortBy { Person -> Person.destination }
         val transfer = HashSet<Person>()
         var turns = roomLeft()
         loop@ for (person in queue) {

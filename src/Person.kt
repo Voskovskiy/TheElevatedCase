@@ -3,7 +3,7 @@ class Person(current: Int) {
     init {
             while (true) {
                 roll()
-                if (destination != (current - 1)) break
+                if (destination != current) break
             }
         }
     private fun roll() {
