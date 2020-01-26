@@ -1,6 +1,6 @@
 // The Elevated Case
 // Global variables
-var _startingFlour = 1
+const val _startingFlour = 1
 const val _minRandom = 2
 const val _maxRandom = 100
 var _elevatorCapacity = ranDom()
