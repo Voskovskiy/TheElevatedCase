@@ -5,34 +5,28 @@ class Elevator {
     private var goingUp: Boolean? = null
     fun roomLeft(): Int = capacity - people.count()
     fun fillIn(queue: ArrayList<Person>) {
-        queue.sortBy { Person -> Person.destination }
+        queue.sortBy { it.destination }
         val transfer = HashSet<Person>()
         var turns = roomLeft()
         loop@ for (person in queue) {
             if (turns == 0) break
             when(firstOrLast()) {
-                true -> { transfer.add(person) }
-                else -> { // Pick according to the direction
-                    when(goingUp) {
-                        true -> {
-                            if (person.destination > currentFlourIndex) {
-                                transfer.add(person)
-                                turns--
-                            } else {
-                                continue@loop
-                            }
-                        }
-                        false -> {
-                            if (person.destination < currentFlourIndex) {
-                                transfer.add(person)
-                                turns--
-                            } else {
-                                continue@loop
-                            }
-                        }
-                        null -> {
+                true -> transfer.add(person)
+                else -> when(goingUp) {
+                    true, null -> {
+                        if (person.destination > currentFlourIndex) {
                             transfer.add(person)
                             turns--
+                        } else {
+                            continue@loop
+                        }
+                    }
+                    false -> {
+                        if (person.destination < currentFlourIndex) {
+                            transfer.add(person)
+                            turns--
+                        } else {
+                            continue@loop
                         }
                     }
                 }
@@ -59,7 +53,7 @@ class Elevator {
         println("${peopleOrPerson(transfer.count())} just left.")
     }
     fun next() {
-        if (firstOrLast()) {    // Checking if we reached top or bottom
+        if (firstOrLast()) {
             if (atTheRoof()) goDown() else goUp()
         } else {
             when (goingUp) {
@@ -69,31 +63,23 @@ class Elevator {
             }
         }
     }
-    fun isEmpty(): Boolean {
-        return this.inside() == 0
-    }
-    fun inside(): Int {
-        return this.people.count()
-    }
+    fun isEmpty() = inside() == 0
+    fun inside() = people.count()
     fun get(): ArrayList<Person> = people
     private fun firstOrLast(): Boolean {
         return when (currentFlourIndex) {
             0 -> {
-                this.goingUp = true
+                goingUp = true
                 true
             }
             (_buildingSize - 1) -> {
-                this.goingUp = false
+                goingUp = false
                 true
             }
-            else -> {
-                false
-            }
+            else -> false
         }
     }
-    private fun atTheRoof(): Boolean {
-        return currentFlourIndex == (_buildingSize - 1)
-    }
+    private fun atTheRoof() = currentFlourIndex == (_buildingSize - 1)
     private fun goUp() {
         currentFlourIndex++
         goingUp = true

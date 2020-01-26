@@ -23,10 +23,13 @@ fun main(args: Array<String>) {
         if (building.isEmpty() and (elevator.isEmpty())) break      // Job is done!
         if (!elevator.isEmpty()) {
             val transfer = elevator.askAround()                     // Asking around if anyone arrived to this flour
-            if (transfer.isNotEmpty()) elevator.unload(transfer)    // Unloading if we have anyone to leave
+            if (transfer.isNotEmpty())
+                elevator.unload(transfer)    // Unloading if we have anyone to leave
         }
         if (building.currentFlourIsEmpty(elevator.currentFlourIndex) or elevator.isFull()) {
-            elevator.next(); turns++; continue
+            elevator.next()
+            turns++
+            continue
         }
         if (elevator.roomLeft() > 0) {
             elevator.fillIn(building.flours[elevator.currentFlourIndex].people)

@@ -3,15 +3,10 @@ class Building {
     init {
         println("The building is $_buildingSize flours high")
         flours = Array(_buildingSize) {Flour()}
-        for (i in flours.indices) {
+        for (i in flours.indices)
             flours[i] = Flour(i)
-        }
     }
-    fun isEmpty(): Boolean = (inside() == 0)
-    fun currentFlourIsEmpty(currentFlourIndex: Int): Boolean = (flours[currentFlourIndex].count() == 0)
-    fun inside(): Int {
-        var quantity = 0
-        flours.forEach { quantity += it.count() }
-        return quantity
-    }
+    fun isEmpty() = (inside() == 0)
+    fun currentFlourIsEmpty(currentFlourIndex: Int) = (flours[currentFlourIndex].count() == 0)
+    fun inside() = flours.fold(0) { result, floor -> result + floor.count() }
 }
